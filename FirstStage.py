@@ -14,6 +14,7 @@ def run(screen, font, fsize):
         searched_txt = pygame.font.SysFont(font, fsize).render(searched[0][0], True, searched[1][1])
         screen.blit(searched_txt, (round(x / 2) - 150, round(y / 2)))
 
+
     while True:
         screen.fill((255, 255, 255))
 
