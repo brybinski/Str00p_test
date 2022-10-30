@@ -52,9 +52,11 @@ def renderTextCenteredAt(text, font, colour, x, y, screen, allowed_width):
 
 
 def run(screen, font, fsize, colors_num):
+
     def add_score(stage, correct=False) -> None:
         tm = pygame.time.get_ticks()
         if correct:
+            GlobalVars.correct_count += 1
 
             upper_limit = 250
             if tm - GlobalVars.DataCollection[-1][1] != 0:
@@ -69,7 +71,9 @@ def run(screen, font, fsize, colors_num):
                 GlobalVars.score = (upper_limit + GlobalVars.score)
             GlobalVars.DataCollection.append([1, tm, to_enter[stage][0], stage])
             return
-        GlobalVars.DataCollection.append([0, tm, to_enter[stage][0], stage])
+        GlobalVars.false_count += 1
+        if stage < len(to_enter):
+            GlobalVars.DataCollection.append([0, tm, to_enter[stage][0], stage])
 
     def level1(lst, down_middle=1, down_bottom=1, down_bottom_2=1) -> int:
         #print(lst)
@@ -161,7 +165,6 @@ def run(screen, font, fsize, colors_num):
             'C',
             'V'
         ]
-
         for i in answers:
             opt = i
             opt_txt = pygame.font.SysFont(font, fsize * 2).render(opt[0][0], True, opt[1][1])
@@ -270,6 +273,11 @@ def run(screen, font, fsize, colors_num):
         screen.blit(text, (x - 150, 20))
         text = pygame.font.SysFont(font, 25).render(f'Wynik: {GlobalVars.score}', True, (0, 0, 0))
         screen.blit(text, (x - 150, 50))
+        text = pygame.font.SysFont(font, 25).render(f'Poprawnych opowiedzi: {GlobalVars.correct_count}', True, (0, 0, 0))
+        screen.blit(text, (x - 300, 80))
+        text = pygame.font.SysFont(font, 25).render(f'Fałszywych opowiedzi: {GlobalVars.false_count}', True, (0, 0, 0))
+        screen.blit(text, (x - 300, 110))
+
 
     for level in level1, level2, level3:
         wait(screen, wait_lst[before_iterator][0], wait_lst[before_iterator][1],clock, time_now)

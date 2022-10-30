@@ -4,6 +4,7 @@ import FirstStage
 from datetime import datetime
 import GlobalVars
 import json
+import csv
 from operator import itemgetter
 import pygame
 from pygame import freetype
@@ -20,15 +21,14 @@ def save(highscores):
 
 
 def save_data(data):
-    try:
-        with open('data.json', 'r') as file:
-            data_lst = json.load(file)  # Read the json file.
-    except FileNotFoundError:
-        data_lst = []  # Define an empty list if the file doesn't exist.
-
-    with open('data.json', 'w') as file:
-        data_lst.append(data)
-        json.dump(data, file)
+    with open('datalog.csv', 'a', newline='') as f_object:
+        # Pass the CSV  file object to the writer() function
+        writer_object = csv.writer(f_object)
+        # Result - a writer object
+        # Pass the data in the list as an argument into the writerow() function
+        writer_object.writerow(data)
+        # Close the file object
+        f_object.close()
 
 
 def load():
@@ -76,6 +76,8 @@ def run(screen, font, fsize, time_now, col_count):
 
                     GlobalVars.DataCollection = []
                     GlobalVars.score = 0
+                    GlobalVars.correct_count = 0
+                    GlobalVars.false_count = 0
                     finished = False
                 else:
                     name += event.unicode  # Add a character to the name.
@@ -85,7 +87,8 @@ def run(screen, font, fsize, time_now, col_count):
                 FONT.render_to(screen, (sx / 4, sy * (y + 1) / 11),
                                f'{y + 1}. {hi_name} {hi_score} {GlobalVars.ms_to_mins(atime)[0]}:{GlobalVars.ms_to_mins(atime)[1]}:{GlobalVars.ms_to_mins(atime)[2]}',
                                BLUE)
-
+        FONT.render_to(screen, (sx / 1.5, sy * 9 / 14), f'Poprawnych odpowiedzi: {GlobalVars.correct_count}', BLUE)
+        FONT.render_to(screen, (sx / 1.5, sy * 10 / 14), f'Fałszywych odpowiedzi: {GlobalVars.false_count}', BLUE)
         FONT.render_to(screen, (sx / 1.5, sy * 11 / 14), f'Twój wynik to: {score}', BLUE)
         FONT.render_to(screen, (sx / 1.5, sy * 12 / 14),
                        f'Twój czas to: {GlobalVars.ms_to_mins(time_now)[0]}:{GlobalVars.ms_to_mins(time_now)[1]}:{GlobalVars.ms_to_mins(time_now)[2]}',

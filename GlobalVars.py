@@ -6,7 +6,8 @@ from numpy import floor
 
 score: int
 DataCollection = []
-
+correct_count = 0
+false_count = 0
 
 
 
