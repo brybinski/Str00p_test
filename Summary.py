@@ -18,9 +18,18 @@ def save(highscores):
     with open('highscores.json', 'w') as file:
         json.dump(highscores, file)  # Write the list to the json file.
 
+
 def save_data(data):
+    try:
+        with open('data.json', 'r') as file:
+            data_lst = json.load(file)  # Read the json file.
+    except FileNotFoundError:
+        data_lst = []  # Define an empty list if the file doesn't exist.
+
     with open('data.json', 'w') as file:
-        json.dump(data, file)  # Write the list to the json file.
+        data_lst.append(data)
+        json.dump(data, file)
+
 
 def load():
     try:
@@ -32,7 +41,7 @@ def load():
     return sorted(highscores, key=itemgetter(1), reverse=True)
 
 
-def run(screen, font, fsize, time_now):
+def run(screen, font, fsize, time_now, col_count):
     FONT = freetype.Font(None, 24)
     score = GlobalVars.score
     time = GlobalVars.ms_to_mins(time_now)
@@ -60,7 +69,11 @@ def run(screen, font, fsize, time_now):
                 elif event.key == pygame.K_BACKSPACE:
                     name = name[:-1]  # Remove the last character.
                 elif event.key == K_ESCAPE:
-                    save_data([GlobalVars.DataCollection, datetime.now()])
+                    save_data([{'dane': GlobalVars.DataCollection,
+                               'imie': name,
+                               'czas': str(datetime.now()),
+                               'color_c': col_count}])
+
                     GlobalVars.DataCollection = []
                     GlobalVars.score = 0
                     finished = False
@@ -69,12 +82,14 @@ def run(screen, font, fsize, time_now):
 
         for y, (hi_name, hi_score, atime) in enumerate(highscores):
             if y < 10:
-                FONT.render_to(screen, (sx/4, sy * (y+1) / 11),
+                FONT.render_to(screen, (sx / 4, sy * (y + 1) / 11),
                                f'{y + 1}. {hi_name} {hi_score} {GlobalVars.ms_to_mins(atime)[0]}:{GlobalVars.ms_to_mins(atime)[1]}:{GlobalVars.ms_to_mins(atime)[2]}',
                                BLUE)
 
         FONT.render_to(screen, (sx / 1.5, sy * 11 / 14), f'Twój wynik to: {score}', BLUE)
-        FONT.render_to(screen, (sx / 1.5, sy * 12 / 14), f'Twój czas to: {GlobalVars.ms_to_mins(time_now)[0]}:{GlobalVars.ms_to_mins(time_now)[1]}:{GlobalVars.ms_to_mins(time_now)[2]}', BLUE)
+        FONT.render_to(screen, (sx / 1.5, sy * 12 / 14),
+                       f'Twój czas to: {GlobalVars.ms_to_mins(time_now)[0]}:{GlobalVars.ms_to_mins(time_now)[1]}:{GlobalVars.ms_to_mins(time_now)[2]}',
+                       BLUE)
         if not entered:
             FONT.render_to(screen, (sx / 1.5, sy * 13 / 14), f'Wprowadź imię: {name}', BLUE)
 

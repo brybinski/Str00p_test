@@ -1,4 +1,5 @@
-import pygame, sys
+import pygame
+import sys
 from pygame.locals import *
 from GameLogic import GameLogic
 import GlobalVars
@@ -50,7 +51,7 @@ def renderTextCenteredAt(text, font, colour, x, y, screen, allowed_width):
         y_offset += fh
 
 
-def run(screen, font, fsize):
+def run(screen, font, fsize, colors_num):
     def add_score(stage, correct=False) -> None:
         tm = pygame.time.get_ticks()
         if correct:
@@ -241,16 +242,16 @@ def run(screen, font, fsize):
                  ]
                  ],
                 [
-                    'Wybierz nazwę koloru, który został napisany na ekranie.\n W tej sytuacji wybierz V\n \n Naciśnij spację '
+                    'Wybierz nazwę koloru, który został napisany na ekranie.\n W tej sytuacji wybierz X\n \n Naciśnij spację '
                     'aby rozpocząć grę',
                     [
                         level3,
                         [
-                            [['zielony', (144, 174, 28)], ['niebieski', (53, 88, 255)]],
+                            [['żółty', (144, 174, 28)], ['niebieski', (53, 88, 255)]],
                             [
                                 [['niebieski', (53, 88, 255)], ['żółty', (254, 175, 22)]],
-                                [['żółty', (254, 175, 22)], ['niebieski', (53, 88, 255)]],
-                                [['czerwony', (246, 34, 46)], ['zielony', (144, 174, 28)]],
+                                [['żółty', (254, 175, 22)], ['zielony', (144, 174, 28)]],
+                                [['czerwony', (246, 34, 46)], ['niebieski', (53, 88, 255)]],
                                 [['zielony', (144, 174, 28)], ['czerwony', (246, 34, 46)]]]
                         ],
                         1.2,
@@ -276,7 +277,7 @@ def run(screen, font, fsize):
         GlobalVars.DataCollection.append([-1, pygame.time.get_ticks(), -1, -1])
         curr_stage = 0
         stage_1 = GameLogic()
-        to_enter = stage_1.game_rounds(color_range=4, rounds=5)
+        to_enter = stage_1.game_rounds(color_range=colors_num, rounds=5)
         end_stage = True
         corr_val = 0
         while end_stage:

@@ -5,7 +5,6 @@ from numpy import floor
 
 
 score: int
-# TODO: Analysis and serialisation
 DataCollection = []
 
 

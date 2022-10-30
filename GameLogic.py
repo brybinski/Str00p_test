@@ -13,7 +13,10 @@ class GameLogic:
         # derived
         ('żółty', (254, 175, 22)),
         ('fiolet', (147, 41, 142)),
-        ('błękit', (17, 163, 220)),
+        ('błękit', (147, 180, 230)),
+        ('brązowy', (90, 40, 20)),
+        ('pomarańcz', (244, 102, 6)),
+        ('różowy', (235, 137, 255)),
     ]
     rolled: list
     score: list
