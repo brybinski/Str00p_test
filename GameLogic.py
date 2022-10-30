@@ -10,7 +10,6 @@ class GameLogic:
         ('niebieski', (53, 88, 255)),
         ('czerwony', (246, 34, 46)),
         ('zielony', (144, 174, 28)),
-        ('czarny', (0, 0, 0)),
         # derived
         ('żółty', (254, 175, 22)),
         ('fiolet', (147, 41, 142)),
@@ -74,14 +73,20 @@ class GameLogic:
             dice = (random.randint(0, 3))
             if len(result) > 0:
                 while rll[dice][0] == result[-1][0][0]:
-                    dice = (random.randint(0, 3))
+                    dice = dice + 1
+                    dice = dice % 4
+
             xdice = (random.randint(0, 3))
             while xdice == dice:
-                xdice = (random.randint(0, 3))
+                xdice = xdice + 1
+                if xdice > 3:
+                    xdice = 0
+
                 if len(result) > 0:
                     while rll[xdice][0] == result[-1][0][1]:
-                        xdice = (random.randint(0, 3))
-                        c
+                        xdice = xdice + 2
+                        xdice = xdice % 4
+
             result.append([[rll[dice][0], rll[xdice][0]], rll])
 
         return result
