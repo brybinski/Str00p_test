@@ -70,9 +70,9 @@ def run(screen, font, fsize, time_now, col_count):
                     name = name[:-1]  # Remove the last character.
                 elif event.key == K_ESCAPE:
                     save_data([{'dane': GlobalVars.DataCollection,
-                               'imie': name,
-                               'czas': str(datetime.now()),
-                               'color_c': col_count}])
+                                'imie': name,
+                                'czas': str(datetime.now()),
+                                'color_c': col_count}])
 
                     GlobalVars.DataCollection = []
                     GlobalVars.score = 0
@@ -87,6 +87,33 @@ def run(screen, font, fsize, time_now, col_count):
                 FONT.render_to(screen, (sx / 4, sy * (y + 1) / 11),
                                f'{y + 1}. {hi_name} {hi_score} {GlobalVars.ms_to_mins(atime)[0]}:{GlobalVars.ms_to_mins(atime)[1]}:{GlobalVars.ms_to_mins(atime)[2]}',
                                BLUE)
+
+        avg_before = 0
+        it_bef = 0
+        avg_after = 0
+        it_after = 0
+        it = 0
+        for data in GlobalVars.DataCollection:
+            if it < 5:
+                if data[-1] != -1:
+                    if data[0] == 1:
+                        it_bef += 1
+                    avg_before += data[1] - GlobalVars.DataCollection[it - 1][1]
+            else:
+                if data[-1] != -1:
+                    if data[0] == 1:
+                        it_after += 1
+                    avg_after += data[1] - GlobalVars.DataCollection[it - 1][1]
+            it += 1
+
+        if it_bef == 0:
+            it_bef = 1
+
+        if it_after == 0:
+            it_after = 1
+
+        FONT.render_to(screen, (sx / 1.6, sy * 8 / 14),
+                       f'wydłużenie czasu reakcji: {round(avg_after / it_after) - round( avg_before / it_bef)} ms', BLUE)
         FONT.render_to(screen, (sx / 1.5, sy * 9 / 14), f'Poprawnych odpowiedzi: {GlobalVars.correct_count}', BLUE)
         FONT.render_to(screen, (sx / 1.5, sy * 10 / 14), f'Fałszywych odpowiedzi: {GlobalVars.false_count}', BLUE)
         FONT.render_to(screen, (sx / 1.5, sy * 11 / 14), f'Twój wynik to: {score}', BLUE)

@@ -29,31 +29,35 @@ def main():
         # Start Page
         screen.fill((255, 255, 255))
         events = pygame.event.get()
-        pygame_widgets.update(events)
-
         x, y = screen.get_size()
-        FirstStage.renderTextCenteredAt("liczba kolorów", pygame.font.SysFont(font, fsize), (0, 0, 0),
-                                        x / 10, y / 4, screen,
-                                        x / 10)
-        FirstStage.renderTextCenteredAt("Test Stroopa", pygame.font.SysFont(font, fsize * 4), (0, 0, 0),
+
+        # Slider Code
+
+        # pygame_widgets.update(events)
+        # FirstStage.renderTextCenteredAt("liczba kolorów", pygame.font.SysFont(font, fsize), (0, 0, 0),
+        #                                 x / 10, y / 4, screen,
+        #                                 x / 10)
+
+
+        FirstStage.renderTextCenteredAt("Efekt Stroopa", pygame.font.SysFont(font, fsize * 4), (0, 0, 0),
                                         x / 2, y / 4, screen,
                                         x / 1.5)
-        FirstStage.renderTextCenteredAt("naciśnij start aby rozpocząć", pygame.font.SysFont(font, fsize), (0, 0, 0),
+        FirstStage.renderTextCenteredAt("naciśnij enter aby rozpocząć", pygame.font.SysFont(font, fsize), (0, 0, 0),
                                         x / 2,
                                         y / 1.5, screen,
                                         x / 1.5)
-        # txt = pygame.font.SysFont(font, fsize*2).render("Str00p Test", True, (0, 0, 0))
+        # txt = pygame.font.SysFont(font, fsize*2).render("Efekt Stroopa", True, (0, 0, 0))
         # text_rect = txt.get_rect(center=(x / 2, y / 2))
         # screen.blit(txt, text_rect)
-        output.setText(slider.getValue())
+        #output.setText(slider.getValue())
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == K_SPACE:
+                if event.key == K_RETURN:
                     GlobalVars.score = 0
-                    Summary.run(screen, font, fsize, FirstStage.run(screen, font, fsize, slider.getValue()),slider.getValue())
+                    Summary.run(screen, font, fsize, FirstStage.run(screen, font, fsize, slider.getValue()), slider.getValue())
                 elif event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
