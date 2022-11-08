@@ -85,7 +85,7 @@ def run(screen, font, fsize, time_now, col_count):
         for y, (hi_name, hi_score, atime) in enumerate(highscores):
             if y < 10:
                 FONT.render_to(screen, (sx / 4, sy * (y + 1) / 11),
-                               f'{y + 1}. {hi_name} {hi_score} {GlobalVars.ms_to_mins(atime)[0]}:{GlobalVars.ms_to_mins(atime)[1]}:{GlobalVars.ms_to_mins(atime)[2]}',
+                               f'{y + 1}. {hi_name} | {hi_score} | {GlobalVars.ms_to_mins(atime)[0]}:{GlobalVars.ms_to_mins(atime)[1]}:{GlobalVars.ms_to_mins(atime)[2]}',
                                BLUE)
 
         avg_before = 0
@@ -94,7 +94,7 @@ def run(screen, font, fsize, time_now, col_count):
         it_after = 0
         it = 0
         for data in GlobalVars.DataCollection:
-            if it < 5:
+            if it < 10:
                 if data[-1] != -1:
                     if data[0] == 1:
                         it_bef += 1
